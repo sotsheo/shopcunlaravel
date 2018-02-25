@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>slider</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		.slider{
+			width: 1000px;
+			margin: 0 auto;
+			position: relative;
+			overflow: hidden;
+			height: 500px;
+			border: 3px solid #7CFC00;
+		}
+		.page{
+			width: 1000px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+		}
+		.page1{
+			left: 1000px;
+		}
+		.page2{
+			left: 2000px;
+		}
+		.slider span{
+			position: absolute;
+			z-index: 10;
+			font-size: 50px;
+			top: 40%;
+			padding: 20px 10px;
+			color:#ADD8E6;
+		}
+		.slider span:hover{
+			background: rgba(198,226,255,.7);
+		}
+		.left{
+				left:0;
+		}
+		.right{
+				right:0;
+		}
+		.bt{
+			width: 100%;
+			position: absolute;
+			bottom: 50px;
+			height: 30px;
+			text-align: center;
+			z-index: 1;
+		}
+		.bt span{
+			
+		}
+		.bt ul li{
+			display: inline-block;
+			margin: 0px 10px;
+			padding: 7px;
+			background: green;
+			margin: 0 auto;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+		.bt ul .action{
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="slider">
+		<span class="left" id="l"><i class="fa fa-angle-left"></i></span>
+		<span class="right"><i class="fa fa-angle-right"></i></span>
+		<div class="page" >
+			<div><img src="img/Untitled.png" width="100%;" height="450px"></div>
+			<h3>Page 1 Page 1 Page 1 Page 1 Page 1 Page 1</h3>
+		</div>
+		<div class="page page1">
+			<div><img src="img/Untitled2.png" width="100%;" height="450px"></div>
+			<h3>Page 2 Page 2 Page 2 Page 21 Page 2 Page 2</h3>
+		</div>
+		<div class="page page2">
+			<div><img src="img/Untitled1.png" width="100%;" height="450px"></div>
+			<h3>Page 3 Page 3 Page 3 Page 3 Page 3 Page 3</h3>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="bt">
+			<ul>
+				<li class="action"></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+	
+	<script >
+	// jQuery
+		$(document).ready(function(){
+			var i=0;
+			$(".left").click(function(){
+				// duyet cac  div de tru left
+				var chuoi=$(".page").last().css("left");
+				if(chuoi.substr(0,3)>0)
+				{
+					$(".page").each(function(index){	
+						$(this).animate({left: "-=1000"});
+																			
+					});
+				 }
+				 //alert(chuoi.substr(0,3));
+				else{
+					var bien=0;
+					//while(bien<$(".page").length){
+						$(".page").each(function(index){	
+							//alert(1);
+							$(this).animate({left: bien},1);	
+							bien+=1000;	
+															
+						});
+						//bien++;
+					//}
+					//bien=1;
+					//alert(chuoi.substr(0,1));
+				}
+				$(".bt ul li").each(function(index){	
+					$(".bt ul li").eq(i).removeClass(" action");
+												
+				});
+				i++;
+				if(i==$(".bt ul li").length){
+					i=0;
+				}
+				$(".bt ul li").eq(i).addClass(" action");
+			});
+			$(".right").click(function(){
+
+				$(".page").each(function(){
+					if($(".page").first().css("left")!="0px")
+					{
+						$(this).animate({left: "+=1000"});
+					}
+				});
+				if($(".page").first().css("left")=="0px"){
+					var bien=1;
+					while(bien<$(".page").length){
+						$(".page").each(function(index){						
+							$(this).animate({left: "-=1000"},1);											
+						});
+						bien++;
+					}
+				}
+				$(".bt ul li").each(function(index){	
+					$(".bt ul li").eq(i).removeClass(" action");
+												
+				});
+				i--;
+				if(i==-1){
+					i=$(".bt ul li").length-1;
+				}
+				
+				$(".bt ul li").eq(i).addClass(" action");
+			});
+			// su kien click vao li
+			$(".bt ul li").each(function(index){
+				$(this).click(function(){
+					$(".bt ul li").each(function(index){	
+						$(this).removeClass(" action");												
+					});
+					$(this).addClass(" action");
+					var bien=0;
+					while(bien<index){
+						$(".page").each(function(index){						
+							$(this).animate({left: "-=1000"},1);											
+						});
+						bien++;
+					}
+				});
+			});
+		});
+	
+	</script>
+</body>
+</html>
